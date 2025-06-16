@@ -24,7 +24,7 @@ router.post("/", authenticate, async (req, res) => {
         
         const query = `
             INSERT INTO contacts (name, email, phone, created_at, updated_at, created_by,updated_by)
-            VALUES ($1, $2, $3, $4, $5, $6, $6)
+            VALUES ($1, $2, $3, $4, $5, $6, $7)
             RETURNING *
         `;
 
