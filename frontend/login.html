@@ -23,5 +23,53 @@
     
     
   </div>
+  <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const loginForm = document.querySelector("form");
+
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const email = loginForm.email.value;
+      const password = loginForm.password.value;
+
+      const loginData = {
+        email,
+        password
+      };
+
+      let response;
+      try {
+        response = await fetch("http://localhost:6700/api/users/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(loginData)
+        });
+      } catch (error) {
+        alert("Could not connect to the server. Please try again later.");
+        return;
+      }
+
+      let result;
+      try {
+        result = await response.json();
+      } catch (jsonError) {
+        alert("Invalid server response.");
+        return;
+      }
+
+      if (response.ok) {
+        alert(result.msg || "Login successful!");
+        // Optionally save token here: localStorage.setItem("token", result.token);
+        window.location.href = "dashboard.html"; // Redirect after login
+      } else {
+        alert(result.msg || "Login failed! Please check your credentials.");
+      }
+    });
+  });
+</script>
+
 </body>
 </html>
